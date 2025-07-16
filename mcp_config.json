@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "supabase-page-search": {
+      "command": "uv",
+      "args": ["run", "main.py"],
+      "env": {
+        "OPENAI_API_KEY": "your_openai_api_key_here",
+        "SUPABASE_URL": "https://your-project.supabase.co",
+        "SUPABASE_KEY": "your_supabase_key_here"
+      }
+    }
+  }
+}
