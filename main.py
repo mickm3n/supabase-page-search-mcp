@@ -60,15 +60,33 @@ async def search_roam_pages(
     query: str, match_count: int = 5, threshold: float = 0.7
 ) -> str:
     """
-    Search for Roam Research pages by semantic similarity using OpenAI embeddings and Supabase.
+    Search for Roam Research pages by semantic similarity using AI embeddings.
+    
+    Uses OpenAI's text-embedding-3-small model to find pages with similar meaning
+    to your query, even if they don't contain the exact keywords. Perfect for
+    discovering related content and finding the right page to write new information.
 
     Args:
-        query: The search query to find similar pages
-        match_count: Number of similar pages to return (default: 5)
-        threshold: Similarity threshold for matching (default: 0.7)
+        query: Natural language search query describing what you're looking for
+               Examples: "credit card rewards", "meeting notes from last week", "project planning"
+        match_count: Maximum number of similar pages to return (default: 5, max: 50)
+        threshold: Minimum similarity score for results (default: 0.7, range: 0.0-1.0)
+                  Higher values (0.8+) = more precise matches
+                  Lower values (0.5-0.7) = broader, more exploratory results
 
     Returns:
-        JSON string with similar page titles and their similarity scores
+        JSON string containing:
+        - query: Your original search query
+        - results: Array of matching pages with:
+          - uid: Unique page identifier  
+          - text: Page title/name
+          - similarity: Relevance score (0.0-1.0)
+        - total_matches: Number of pages found above threshold
+        
+    Examples:
+        search_roam_pages("productivity tips")
+        search_roam_pages("信用卡優惠", match_count=10, threshold=0.6)
+        search_roam_pages("machine learning concepts", match_count=3, threshold=0.8)
     """
     try:
         # Get embedding for the query
